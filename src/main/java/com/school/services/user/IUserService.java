@@ -1,5 +1,7 @@
 package com.school.services.user;
 
+import java.util.List;
+
 import com.school.models.User;
 
 public interface IUserService {
@@ -11,4 +13,6 @@ public interface IUserService {
     public User getUserById(Long id);
 
     public void deleteUserById(Long id);
+
+    public List<User> getUsersByName(String name);
 }

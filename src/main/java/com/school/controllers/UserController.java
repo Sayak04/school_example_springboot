@@ -1,5 +1,7 @@
 package com.school.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,6 +75,23 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.FOUND).body(requestedUser);
+    }
+
+    /** API - Get users by name
+     * @param name
+     * @return
+     */
+    @GetMapping("/find-users")
+    public ResponseEntity<List<User>> getUsersByName(
+        @RequestParam("name") String name
+    ) {
+        List<User> users = userService.getUsersByName(name);
+
+        if(users == null || users.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(users);
     }
 
     @DeleteMapping("/{id}")

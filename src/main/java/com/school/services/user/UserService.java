@@ -7,6 +7,7 @@ import com.school.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -62,6 +63,11 @@ public class UserService implements IUserService {
         
         userRepository.deleteById(id);
 
+    }
+
+    @Override
+    public List<User> getUsersByName(String name) {
+        return userRepository.getUsersByName(name);
     }
 
 
