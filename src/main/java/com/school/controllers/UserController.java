@@ -1,6 +1,10 @@
 package com.school.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +23,11 @@ public class UserController {
 
     private final IUserService userService;
     
+    /** API - Add a new User
+     * @param firstName
+     * @param lastName
+     * @return
+     */
     @PostMapping("/add/new-user")
     public ResponseEntity<User> addNewUser(
         @RequestParam("firstName") String firstName,
@@ -29,6 +38,11 @@ public class UserController {
         return ResponseEntity.ok(addedUser);
     }
 
+    /** API - Add a role to a user
+     * @param id
+     * @param roleId
+     * @return
+     */
     @PostMapping("add/user-role")
     public ResponseEntity<User> addRoleToUser(
         @RequestParam("id") Long id,
@@ -40,5 +54,34 @@ public class UserController {
         System.out.println(updatedUser);
 
         return ResponseEntity.ok(updatedUser);
+    }
+
+    
+    /** API - Get user by ID
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(
+        @PathVariable("id") Long id
+    ) {
+
+        User requestedUser = userService.getUserById(id);
+
+        if(requestedUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(requestedUser);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserById(
+        @PathVariable("id") Long id
+    ) {
+        
+        userService.deleteUserById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

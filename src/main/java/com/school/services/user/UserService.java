@@ -7,7 +7,6 @@ import com.school.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -29,30 +28,41 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User getUserById(Long id) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+
+        return null;
+    }
+
+    @Override
     public User addNewRoleToUser(Long id, Integer roleId) {
         // get user and role by id
         Optional<User> optionalUser = userRepository.findById(id);
         Optional<Role> optionalRole = roleRepository.findById(roleId);
 
-        User user = null;
-        Role role = null;
-
-        if(optionalUser.isPresent()) {
-            user = optionalUser.get();
+        if (optionalUser.isPresent() && optionalRole.isPresent()) {
+            User user = optionalUser.get();
+            Role role = optionalRole.get();
+            user.addRole(role); // Update user's roles
+            userRepository.save(user);
+            return user;
         }
-        if(optionalRole.isPresent()) {
-            role = optionalRole.get();
-        }
-
-        if(user == null || role == null) {
-            return null;
-        }
-
-        List<Role> rolesOfCurrUser = user.getRoles();
-        rolesOfCurrUser.add(role);
-
-        return userRepository.save(user);
+        return null;
 
         // TODO:- Add same for saving in role table
     }
+
+    @Override
+    public void deleteUserById(Long id) {
+        
+        userRepository.deleteById(id);
+
+    }
+
+
 }
