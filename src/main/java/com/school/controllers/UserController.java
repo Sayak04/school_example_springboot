@@ -94,6 +94,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.FOUND).body(users);
     }
 
+    /** API - Get users by role
+     * @param role
+     * @return
+     */
+    @GetMapping("/find-users/role")
+    public ResponseEntity<List<User>> getUsersByRole(
+        @RequestParam("role") String role
+    ) {
+        List<User> users = userService.getUsersByRole(role);
+
+        if(users == null || users.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(users);
+    }
+
+    /** API - Delete user by id
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUserById(
         @PathVariable("id") Long id

@@ -70,5 +70,10 @@ public class UserService implements IUserService {
         return userRepository.getUsersByName(name);
     }
 
+    @Override
+    public List<User> getUsersByRole(String role) {
+        return userRepository.getUsersByRole(role);
+    }
+
 
 }
