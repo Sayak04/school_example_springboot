@@ -1,6 +1,9 @@
 package com.school.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,5 +28,16 @@ public class RoleController {
         Role addedRole = roleService.addRole(title);
 
         return ResponseEntity.ok(addedRole);
+    }
+
+
+    // api to search a role
+    @GetMapping("/find-roles")
+    public ResponseEntity<List<Role>> searchRolesByText(
+        @RequestParam("text") String text
+    ) {
+        List<Role> searchedRoles = roleService.getRoleByText(text);
+
+        return ResponseEntity.ok(searchedRoles);
     }
 }

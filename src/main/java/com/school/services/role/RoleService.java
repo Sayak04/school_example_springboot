@@ -1,5 +1,7 @@
 package com.school.services.role;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.school.models.Role;
@@ -21,6 +23,11 @@ public class RoleService implements IRoleService {
         role.setTitle(title);
 
         return roleRepository.save(role);
+    }
+
+    @Override
+    public List<Role> getRoleByText(String text) {
+        return roleRepository.getRoleByText(text);
     }
     
 }
