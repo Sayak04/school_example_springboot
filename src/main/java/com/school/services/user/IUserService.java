@@ -15,6 +15,8 @@ public interface IUserService {
 
     public User addNewRoleToUser(Long id, Integer roleId);
 
+    public List<User> getAllUsers();
+    
     public User getUserById(Long id);
 
     public void deleteUserById(Long id);
@@ -24,4 +26,5 @@ public interface IUserService {
     public List<User> getUsersByRole(String role);
 
     public void printCSV(MultipartFile file) throws FileNotFoundException, IOException, CsvException;
+
 }

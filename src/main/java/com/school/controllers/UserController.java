@@ -63,6 +63,18 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAllUsers() {
+
+        List<User> users = userService.getAllUsers();
+
+        if(users.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(users);
+    }
+
     /**
      * API - Get user by ID
      * 
