@@ -27,4 +27,6 @@ public interface IUserService {
 
     public void printCSV(MultipartFile file) throws FileNotFoundException, IOException, CsvException;
 
+    public void parseCsv();
+
 }

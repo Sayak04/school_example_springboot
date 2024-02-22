@@ -155,4 +155,10 @@ public class UserController {
         userService.printCSV(file);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PostMapping("/upload/csv/v2")
+    public ResponseEntity<Void> addUsersFromCsv2() {
+        userService.parseCsv();
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

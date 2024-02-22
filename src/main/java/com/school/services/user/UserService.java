@@ -15,6 +15,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +29,12 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    @Autowired
+    private JobLauncher jobLauncher;
+
+    @Autowired
+    private Job job;
 
     @Override
     public User addUser(String firstName, String lastName) {
@@ -111,6 +122,20 @@ public class UserService implements IUserService {
         file.transferTo(convertedFile);
 
         return convertedFile;
+    }
+
+    @Override
+    public void parseCsv() {
+        
+        JobParameters jobParameters = new JobParametersBuilder()
+            .addLong("startAt", System.currentTimeMillis())
+            .toJobParameters();
+
+        try {
+            jobLauncher.run(job, jobParameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
